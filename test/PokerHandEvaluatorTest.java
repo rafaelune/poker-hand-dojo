@@ -6,34 +6,32 @@ import org.junit.Before;
 import org.junit.Test;
 
 
-public class JogadaTest {
+public class PokerHandEvaluatorTest {
 	
-	private PokerHand hand;
+	private PokerHandEvaluator hand;
 	private List<Card> cards;
 	
 	@Before
 	public void setup() {
-		hand = new PokerHand();
+		hand = new PokerHandEvaluator();
 		cards = new ArrayList<Card>();
 	}
 	
 	@Test(expected = InvalidPokerHandException.class)
-	public void validarPassagemDeCartas() throws InvalidPokerHandException {
+	public void checkCardsListIsNull() throws InvalidPokerHandException {
 		hand.checkHand(null);
-		Assert.fail("Cartas null.");
 	}
 	
 	@Test(expected = InvalidPokerHandException.class)
-	public void validarNumeroDeCartas() throws InvalidPokerHandException {
+	public void checkNumberOfCards() throws InvalidPokerHandException {
 		cards.add(new Card(5, Suit.HEARTS));
 		cards.add(new Card(7, Suit.SPADES));
 		cards.add(new Card(11, Suit.DIAMONDS));
 		hand.checkHand(cards);
-		Assert.fail("Número de cartas inválido.");
 	}
 	
 	@Test
-	public void validarJogadaCartaMaior() {
+	public void checkHighCardRank() {
 		cards.add(new Card(5, Suit.HEARTS));
 		cards.add(new Card(7, Suit.SPADES));
 		cards.add(new Card(11, Suit.DIAMONDS));
@@ -47,21 +45,21 @@ public class JogadaTest {
 	}
 	
 	@Test
-	public void validarJogadaComPar() {
+	public void checkOnePairRank() {
 		cards.add(new Card(5, Suit.HEARTS));
 		cards.add(new Card(11, Suit.SPADES));
 		cards.add(new Card(11, Suit.DIAMONDS));
 		cards.add(new Card(4, Suit.CLUBS));
 		cards.add(new Card(6, Suit.CLUBS));
 		try {
-			Assert.assertEquals(PokerHandResult.PAIR, hand.checkHand(cards));
+			Assert.assertEquals(PokerHandResult.ONE_PAIR, hand.checkHand(cards));
 		} catch (InvalidPokerHandException e) {
 			Assert.fail();
 		}
 	}
 	
 	@Test
-	public void validarJogadaComDoisPares() {
+	public void checkTwoPairsRank() {
 		cards.add(new Card(5, Suit.HEARTS));
 		cards.add(new Card(8, Suit.SPADES));
 		cards.add(new Card(11, Suit.DIAMONDS));
@@ -76,7 +74,7 @@ public class JogadaTest {
 	
 	
 	@Test
-	public void validarJogadaTrinca() {
+	public void checkThreeKindRank() {
 		cards.add(new Card(3, Suit.HEARTS));
 		cards.add(new Card(7, Suit.SPADES));
 		cards.add(new Card(3, Suit.DIAMONDS));
@@ -90,7 +88,7 @@ public class JogadaTest {
 	}
 	
 	@Test
-	public void validarJogadaStraightIniciadaComAS() { // SEQUENCIA NUMERICA INDEP. NAIPE
+	public void checkStraightRankStartingWithAce() { // SEQUENCIA NUMERICA INDEP. NAIPE
 		cards.add(new Card(3, Suit.HEARTS));
 		cards.add(new Card(2, Suit.SPADES));
 		cards.add(new Card(14, Suit.DIAMONDS));
@@ -104,7 +102,7 @@ public class JogadaTest {
 	}
 	
 	@Test
-	public void validarJogadaStraightFinalizadaComAS() { // SEQUENCIA NUMERICA INDEP. NAIPE
+	public void checkStraightRankEndingWithAce() { // SEQUENCIA NUMERICA INDEP. NAIPE
 		cards.add(new Card(11, Suit.HEARTS));
 		cards.add(new Card(10, Suit.SPADES));
 		cards.add(new Card(14, Suit.DIAMONDS));
@@ -118,7 +116,7 @@ public class JogadaTest {
 	}
 	
 	@Test
-	public void validarJogadaFlush() {
+	public void checkFlushRank() {
 		cards.add(new Card(10, Suit.HEARTS));
 		cards.add(new Card(7, Suit.HEARTS));
 		cards.add(new Card(6, Suit.HEARTS));
@@ -132,7 +130,7 @@ public class JogadaTest {
 	}
 	
 	@Test
-	public void validarJogadaFullHouse() {
+	public void checkFullHouseRank() {
 		cards.add(new Card(10, Suit.HEARTS));
 		cards.add(new Card(10, Suit.SPADES));
 		cards.add(new Card(10, Suit.DIAMONDS));
@@ -146,21 +144,21 @@ public class JogadaTest {
 	}
 	
 	@Test
-	public void validarJogadaFour() {
+	public void checkFourRank() {
 		cards.add(new Card(10, Suit.HEARTS));
 		cards.add(new Card(10, Suit.SPADES));
 		cards.add(new Card(10, Suit.DIAMONDS));
 		cards.add(new Card(2, Suit.CLUBS));
 		cards.add(new Card(10, Suit.CLUBS));
 		try {
-			Assert.assertEquals(PokerHandResult.FOUR, hand.checkHand(cards));
+			Assert.assertEquals(PokerHandResult.FOUR_KIND, hand.checkHand(cards));
 		} catch (InvalidPokerHandException e) {
 			Assert.fail();
 		}
 	}
 	
 	@Test
-	public void validarJogadaStraightFlushIniciadoComAS() {
+	public void checkStraightFlushRankStartingWithAce() {
 		cards.add(new Card(3, Suit.HEARTS));
 		cards.add(new Card(2, Suit.HEARTS));
 		cards.add(new Card(14, Suit.HEARTS));
@@ -174,7 +172,7 @@ public class JogadaTest {
 	}
 	
 	@Test
-	public void validarJogadaStraightFlushFinalizadaComAS() {
+	public void checkStraightFlushRankEndingWithAce() {
 		cards.add(new Card(11, Suit.HEARTS));
 		cards.add(new Card(10, Suit.HEARTS));
 		cards.add(new Card(14, Suit.HEARTS));

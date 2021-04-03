@@ -18,14 +18,6 @@ public class Card implements Comparable<Card> {
 
 	@Override
 	public int compareTo(Card o) {
-		if (this.getNumber() > o.getNumber()) {
-			return 1;
-		}
-		
-		if (this.getNumber() < o.getNumber()) {
-			return -1;
-		}
-		
-		return 0;
+		return this.getNumber().compareTo(o.getNumber());
 	}
 }
